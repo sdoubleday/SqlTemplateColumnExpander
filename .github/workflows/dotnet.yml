@@ -27,5 +27,4 @@ jobs:
       uses: brandedoutcast/publish-nuget@v2
       with: 
         PROJECT_FILE_PATH: SqlTemplateColumnExpander/SqlTemplateColumnExpander.csproj
-        VERSION_STATIC: v2.0.0
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
