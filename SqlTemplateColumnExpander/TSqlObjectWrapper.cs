@@ -13,6 +13,7 @@ namespace SqlTemplateColumnExpander
     {
         public TSqlObject sqlObject { get; set; }
         public String ObjectName { get; set; }
+        public String SchemaName { get; set; }
         public List<String> ListOfColumnNames { get; set; }
         public GeneratorSpecification generatorSpecification { get; set; }
 
@@ -21,10 +22,12 @@ namespace SqlTemplateColumnExpander
         public TSqlObjectWrapper(TSqlObject sqlObject) {
             this.sqlObject = sqlObject;
             this.ObjectName = this.GetObjectName();
+            this.SchemaName = this.GetSchemaName();
             this.PopulateListOfColumns();
         }
         #endregion Constructors
 
+        #region Internal
         public string GetObjectName()
         {
             return this.sqlObject.Name.ToString().Split('.')[1].Replace("[", "").Replace("]", "");
@@ -96,6 +99,8 @@ namespace SqlTemplateColumnExpander
         {
             return this.ListOfColumnNames.Where(mystring => mystring.StartsWith("Ctl_")).ToList<String>();
         }
+        #endregion Internal
+
         public List<LineProcessorConfig> GetLineProcessorConfigs()
         {
             LineProcessorConfig lineProcessorConfigSK = new LineProcessorConfig("SurrogateKey_ReplacementPoint", this.GetListOfSkColumns());
@@ -115,19 +120,24 @@ namespace SqlTemplateColumnExpander
         }
         public List<StringReplacementPair> GetStringReplacementPairs()
         {
-            throw new NotImplementedException();
-//            SrcSchemaName featureFlags
-//-LogicSchemaName null
-//- FinalSchemaName featureFlags
-//                SrcObjSearchSuffix
-//                SrcObjName
-//                MetaObjName
-//                MetaObjAlias
+            //Note: I will probably want to standardize the patterns here across projects
+            List<StringReplacementPair> returnable = new List<StringReplacementPair> {
+                new StringReplacementPair("StagingSchema", this.SchemaName)        //SourceSchema
+                ,new StringReplacementPair("templateDimCoreName", this.GetMetaObjectName())     //MetaObjectName
+                ,new StringReplacementPair("dimRpName", this.GetMetaObjectAlias())      //MetaObjectAlias
+            };
+            returnable.AddRange(this.generatorSpecification.replacementPairs);      //Plus the mappings of my template schema names to the output schemas chosen by the user.
+            return returnable;
         }
         public List<FilePathPair> GetFilePathPairs()
         {
-            //This will need to do FileListerReplacerPairer stuff with directory path pairs in the GeneratorSpecification on the way to the filepathpairs
-            throw new NotImplementedException();
+            List<FilePathPair> returnable = new List<FilePathPair>();
+            foreach (FilePathPair pathPair in this.generatorSpecification.TemplateToOutputDirectoryPairs)
+            {
+                FileListerReplacerPairer fileListerReplacerPairer = new FileListerReplacerPairer(pathPair.source, pathPair.destination, this.GetStringReplacementPairs());
+                returnable.AddRange(fileListerReplacerPairer.sourceAndDestinationFilePaths);
+            }
+            return returnable;
         }
     }
 }

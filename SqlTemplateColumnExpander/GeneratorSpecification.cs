@@ -12,7 +12,7 @@ namespace SqlTemplateColumnExpander
         public GeneratorSpecification(string dacpacFilePath, string srcObjectSearchSuffix, List<FilePathPair> templateToOutputDirectoryPairs, List<StringReplacementPair> replacementPairs)
         {
             this.DacpacFilePath = dacpacFilePath;
-            this.SrcObjectSearchSuffix = srcObjectSearchSuffix;
+            this.SrcObjectSearchSuffix = this.CleanUpFinalSquareBracket(srcObjectSearchSuffix);
             this.TemplateToOutputDirectoryPairs = templateToOutputDirectoryPairs;
             this.replacementPairs = replacementPairs;
             this.Flag_InObjectNameDelimiter_IsPresent = false;
@@ -25,7 +25,7 @@ namespace SqlTemplateColumnExpander
         public GeneratorSpecification(string dacpacFilePath, string srcObjectSearchSuffix, string inObjectNameDelimiter, List<FilePathPair> templateToOutputDirectoryPairs, List<StringReplacementPair> replacementPairs)
         {
             this.DacpacFilePath = dacpacFilePath;
-            this.SrcObjectSearchSuffix = srcObjectSearchSuffix;
+            this.SrcObjectSearchSuffix = this.CleanUpFinalSquareBracket(srcObjectSearchSuffix);
             this.InObjectNameDelimiter = inObjectNameDelimiter;
             this.TemplateToOutputDirectoryPairs = templateToOutputDirectoryPairs;
             this.replacementPairs = replacementPairs;
@@ -41,5 +41,11 @@ namespace SqlTemplateColumnExpander
         public List<StringReplacementPair> replacementPairs { get; set; }
         public Boolean Flag_InObjectNameDelimiter_IsPresent { get; set; }
         #endregion Properties
+
+        public string CleanUpFinalSquareBracket(String input)
+        {
+            String returnable = input.TrimEnd(']');
+            return returnable;
+        }
     }
 }
