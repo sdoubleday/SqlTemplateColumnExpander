@@ -20,9 +20,8 @@ namespace SqlTemplateColumnExpander.Tests
             GeneratorSpecification generatorSpecification = new GeneratorSpecification();
             generatorSpecification.SrcObjectSearchSuffix = SrcObjectSearchSuffix;
 
-            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper();
+            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper(generatorSpecification);
             sqlObjectWrapper.ObjectName = Input;
-            sqlObjectWrapper.generatorSpecification = generatorSpecification;
             
             //Act
             String Actual = sqlObjectWrapper.GetMetaObjectName();
@@ -42,9 +41,8 @@ namespace SqlTemplateColumnExpander.Tests
             generatorSpecification.InObjectNameDelimiter = InObjectNameDelimiter;
             generatorSpecification.Flag_InObjectNameDelimiter_IsPresent = true;
 
-            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper();
+            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper(generatorSpecification);
             sqlObjectWrapper.ObjectName = Input;
-            sqlObjectWrapper.generatorSpecification = generatorSpecification;
 
             //Act
             String Actual = sqlObjectWrapper.GetMetaObjectName();
@@ -63,9 +61,8 @@ namespace SqlTemplateColumnExpander.Tests
             GeneratorSpecification generatorSpecification = new GeneratorSpecification();
             generatorSpecification.SrcObjectSearchSuffix = SrcObjectSearchSuffix;
 
-            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper();
+            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper(generatorSpecification);
             sqlObjectWrapper.ObjectName = Input;
-            sqlObjectWrapper.generatorSpecification = generatorSpecification;
 
             //Act
             String Actual = sqlObjectWrapper.GetMetaObjectAlias();
@@ -87,9 +84,8 @@ namespace SqlTemplateColumnExpander.Tests
             generatorSpecification.InObjectNameDelimiter = InObjectNameDelimiter;
             generatorSpecification.Flag_InObjectNameDelimiter_IsPresent = true;
 
-            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper();
+            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper(generatorSpecification);
             sqlObjectWrapper.ObjectName = Input;
-            sqlObjectWrapper.generatorSpecification = generatorSpecification;
 
             //Act
             String Actual = sqlObjectWrapper.GetMetaObjectAlias();
@@ -102,11 +98,12 @@ namespace SqlTemplateColumnExpander.Tests
         public void GetListOfDimColumns()
         {
             //Arrange
+            GeneratorSpecification generatorSpecification = new GeneratorSpecification();
             List<String> Expected = new List<string> {
                  "IAmADimension"
                 ,"ImAlsoADimension"
             };
-            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper();
+            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper(generatorSpecification);
             sqlObjectWrapper.ListOfColumnNames = GenerateColumnList();
 
             //Act
@@ -121,11 +118,12 @@ namespace SqlTemplateColumnExpander.Tests
         public void GetListOfSkColumns()
         {
             //Arrange
+            GeneratorSpecification generatorSpecification = new GeneratorSpecification();
             List<String> Expected = new List<string> {
                  "SK_Person"
                 ,"SK_Product"
             };
-            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper();
+            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper(generatorSpecification);
             sqlObjectWrapper.ListOfColumnNames = GenerateColumnList();
 
             //Act
@@ -139,11 +137,12 @@ namespace SqlTemplateColumnExpander.Tests
         public void GetListOfNkColumns()
         {
             //Arrange
+            GeneratorSpecification generatorSpecification = new GeneratorSpecification();
             List<String> Expected = new List<string> {
                  "NK_SomeGUID"
                 ,"NK_SnowflakeSK_DateDim"
             };
-            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper();
+            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper(generatorSpecification);
             sqlObjectWrapper.ListOfColumnNames = GenerateColumnList();
 
             //Act
@@ -157,11 +156,12 @@ namespace SqlTemplateColumnExpander.Tests
         public void GetListOfCtlColumns()
         {
             //Arrange
+            GeneratorSpecification generatorSpecification = new GeneratorSpecification();
             List<String> Expected = new List<string> {
                  "Ctl_ImNotADimension"
                 ,"Ctl_EffectiveDate"
             };
-            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper();
+            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper(generatorSpecification);
             sqlObjectWrapper.ListOfColumnNames = GenerateColumnList();
 
             //Act
@@ -175,6 +175,8 @@ namespace SqlTemplateColumnExpander.Tests
         public void GetLineProcessorConfigs()
         {
             //Arrange
+            GeneratorSpecification generatorSpecification = new GeneratorSpecification();
+            
             LineProcessorConfig lineProcessorConfigSK = new LineProcessorConfig();
             lineProcessorConfigSK.targetTag = "SurrogateKey_ReplacementPoint";
             LineProcessorConfig lineProcessorConfigNK = new LineProcessorConfig();
@@ -192,7 +194,7 @@ namespace SqlTemplateColumnExpander.Tests
                 ,lineProcessorConfigDim
             };
 
-            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper();
+            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper(generatorSpecification);
             sqlObjectWrapper.ListOfColumnNames = GenerateColumnList();
 
             //Act
@@ -208,6 +210,7 @@ namespace SqlTemplateColumnExpander.Tests
         public void GetLineProcessorConfigs_ColumnCounts()
         {
             //Arrange
+            GeneratorSpecification generatorSpecification = new GeneratorSpecification();
             List<Int32> Expected = new List<Int32>
             {
                 2
@@ -216,7 +219,7 @@ namespace SqlTemplateColumnExpander.Tests
                 ,2
             };
 
-            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper();
+            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper(generatorSpecification);
             sqlObjectWrapper.ListOfColumnNames = GenerateColumnList();
 
             //Act

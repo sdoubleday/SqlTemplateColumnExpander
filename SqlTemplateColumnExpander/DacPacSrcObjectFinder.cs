@@ -14,20 +14,17 @@ namespace SqlTemplateColumnExpander
         public DacPacSrcObjectFinder() { }
 
         public DacPacSrcObjectFinder(
-             String DacpacFilePath
-            ,String SrcObjectSearchSuffix
+             GeneratorSpecification generatorSpecification
         ) {
-            this.DacpacFilePath = DacpacFilePath;
-            this.SrcObjectSearchSuffix = SrcObjectSearchSuffix;
+            this.generatorSpecification = generatorSpecification;
         }
 
         #region Properties
-        String DacpacFilePath { get; set; }
-        String SrcObjectSearchSuffix { get; set; }
+        GeneratorSpecification generatorSpecification { get; set; }
         #endregion Properties
         public string GetSrcObjectSearchSuffixPlusSquareBracket()
         {
-            String returnable = this.SrcObjectSearchSuffix.TrimEnd(']') + ']';
+            String returnable = this.generatorSpecification.SrcObjectSearchSuffix.TrimEnd(']') + ']';
             return returnable;
         }
 
@@ -35,7 +32,7 @@ namespace SqlTemplateColumnExpander
         public List<TSqlObjectWrapper> GetSourceObjects()
         {
 
-            Microsoft.SqlServer.Dac.Model.TSqlModel sqlModel = new Microsoft.SqlServer.Dac.Model.TSqlModel(this.DacpacFilePath);
+            Microsoft.SqlServer.Dac.Model.TSqlModel sqlModel = new Microsoft.SqlServer.Dac.Model.TSqlModel(this.generatorSpecification.DacpacFilePath);
 
             //Where takes a predicate thing. No, I haven't figured out how to do that without lambda stuff yet. But this is tolerably readable for main control flow, I think.
             var views = sqlModel.GetObjects(DacQueryScopes.Default, View.TypeClass).ToList().Where(view => view.Name.ToString().EndsWith(this.GetSrcObjectSearchSuffixPlusSquareBracket()));
@@ -44,11 +41,11 @@ namespace SqlTemplateColumnExpander
             List<TSqlObjectWrapper> sqlObjectWrappers = new List<TSqlObjectWrapper>();
             foreach (TSqlObject sqlObject in views)
             {
-                sqlObjectWrappers.Add(new TSqlObjectWrapper(sqlObject));
+                sqlObjectWrappers.Add(new TSqlObjectWrapper(sqlObject, this.generatorSpecification));
             }
             foreach (TSqlObject sqlObject in tables)
             {
-                sqlObjectWrappers.Add(new TSqlObjectWrapper(sqlObject));
+                sqlObjectWrappers.Add(new TSqlObjectWrapper(sqlObject, this.generatorSpecification));
             }
 
             return sqlObjectWrappers;

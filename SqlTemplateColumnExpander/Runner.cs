@@ -20,7 +20,7 @@ namespace SqlTemplateColumnExpander
         #endregion Constructors
         public void Run()
         {
-            DacPacSrcObjectFinder objFinder = new DacPacSrcObjectFinder(generatorSpecification.DacpacFilePath, generatorSpecification.SrcObjectSearchSuffix);
+            DacPacSrcObjectFinder objFinder = new DacPacSrcObjectFinder(generatorSpecification);
 
             foreach (TSqlObjectWrapper myWrapper in objFinder.GetSourceObjects())
             {

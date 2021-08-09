@@ -18,8 +18,10 @@ namespace SqlTemplateColumnExpander
         public GeneratorSpecification generatorSpecification { get; set; }
 
         #region Constructors
-        public TSqlObjectWrapper() { }
-        public TSqlObjectWrapper(TSqlObject sqlObject) {
+        public TSqlObjectWrapper(GeneratorSpecification generatorSpecification) {
+            this.generatorSpecification = generatorSpecification;
+        }
+        public TSqlObjectWrapper(TSqlObject sqlObject, GeneratorSpecification generatorSpecification) : this(generatorSpecification) {
             this.sqlObject = sqlObject;
             this.ObjectName = this.GetObjectName();
             this.SchemaName = this.GetSchemaName();

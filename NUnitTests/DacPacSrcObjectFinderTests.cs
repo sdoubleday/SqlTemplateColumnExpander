@@ -19,8 +19,11 @@ namespace SqlTemplateColumnExpander.Tests
             String suffix = "_blah_";
             String Expected = "_blah_]";
 
-            DacPacSrcObjectFinder dacPacSrcObjectFinder = new DacPacSrcObjectFinder(path,suffix);
+            GeneratorSpecification generatorSpecification = new GeneratorSpecification();
+            generatorSpecification.DacpacFilePath = path;
+            generatorSpecification.SrcObjectSearchSuffix = suffix;
 
+            DacPacSrcObjectFinder dacPacSrcObjectFinder = new DacPacSrcObjectFinder(generatorSpecification);
             //Act
             String Actual = dacPacSrcObjectFinder.GetSrcObjectSearchSuffixPlusSquareBracket();
 
@@ -35,7 +38,11 @@ namespace SqlTemplateColumnExpander.Tests
             String suffix = "_blah_]";
             String Expected = "_blah_]";
 
-            DacPacSrcObjectFinder dacPacSrcObjectFinder = new DacPacSrcObjectFinder(path, suffix);
+            GeneratorSpecification generatorSpecification = new GeneratorSpecification();
+            generatorSpecification.DacpacFilePath = path;
+            generatorSpecification.SrcObjectSearchSuffix = suffix;
+
+            DacPacSrcObjectFinder dacPacSrcObjectFinder = new DacPacSrcObjectFinder(generatorSpecification);
 
             //Act
             String Actual = dacPacSrcObjectFinder.GetSrcObjectSearchSuffixPlusSquareBracket();
