@@ -85,11 +85,8 @@ namespace SqlTemplateColumnExpander
         public void PopulateCommentTagElements()
         {
             //No branching logic that I haven't already tested. Move on.
-            CommentTagElements elements = new CommentTagElements();
             List<String> list = this.SplitCommentToList();
-            elements.Tag = list[0];
-            elements.Pattern = list[1];
-            elements.JoinString = list[2];
+            CommentTagElements elements = new CommentTagElements(list);
             this.commentTagElements = elements;
         }
 
