@@ -123,7 +123,7 @@ namespace SqlTemplateColumnExpander
                     foreach (String substitution in this.lineProcessorConfig.perLineSubstitutions)
                     {
                         string intermediate = this.GetInputWithoutComment();
-                        intermediate = intermediate.Replace(this.commentTagElements.Pattern, substitution);
+                        intermediate = intermediate.Replace(this.commentTagElements.PatternList[0], substitution);
 
                         //Looks like this wound up being superfluous. IF so, plan to remove it from the template as well.
                         stringBuilder.Append(this.FormatJoinString(this.commentTagElements.JoinString, isFirst));

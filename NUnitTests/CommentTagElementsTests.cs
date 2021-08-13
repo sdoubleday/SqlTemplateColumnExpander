@@ -21,7 +21,7 @@ namespace SqlTemplateColumnExpander.Tests
 
             //Assert
             Assert.AreEqual(expectedListOfStrings[0], sut.Tag);
-            Assert.AreEqual(expectedListOfStrings[1], sut.Pattern);
+            Assert.AreEqual(expectedListOfStrings[1], sut.PatternList[0]);
             Assert.AreEqual(expectedListOfStrings[2], sut.JoinString);
         }
     }
