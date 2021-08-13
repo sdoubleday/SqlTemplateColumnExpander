@@ -20,6 +20,8 @@ namespace SqlTemplateColumnExpander
         public LineProcessor (String input)
         {
             this.input = input;
+            LineProcessorConfig lineProcessorConfig = new LineProcessorConfig();
+            this.lineProcessorConfig = lineProcessorConfig;
         }
         public LineProcessor(String input, String targetTag) : this(input)
         {
@@ -64,9 +66,9 @@ namespace SqlTemplateColumnExpander
             return returnable;
         }
         
-        public virtual int GetExpectedElementCount()
+        public int GetExpectedElementCount()
         {
-            int returnable = 3;
+            int returnable = this.lineProcessorConfig.ExpectedElementCount;
             return returnable;
         }
 

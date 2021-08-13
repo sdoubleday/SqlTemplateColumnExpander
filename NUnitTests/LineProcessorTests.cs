@@ -15,12 +15,6 @@ namespace SqlTemplateColumnExpander.Tests
             char returnable = ',';
             return returnable;
         }
-        public override int GetExpectedElementCount()
-        {
-            int returnable = 4;
-            return returnable;
-        }
-
     }
 
     [TestFixture]
@@ -143,12 +137,13 @@ namespace SqlTemplateColumnExpander.Tests
         {
             //Arrange
             String Input = "/*a|bbb*/";
-            FakeLineProcessor LineProcessor = new FakeLineProcessor(Input);
             int Expected = 4;
+            LineProcessor lineProcessor = new LineProcessor(Input);
+            lineProcessor.lineProcessorConfig.ExpectedElementCount = Expected; 
             //Act
 
             //Assert
-            ExpectedNumberOfElementsNotFoundException ex = Assert.Throws<ExpectedNumberOfElementsNotFoundException>(delegate { LineProcessor.ValidateSplitList(); });
+            ExpectedNumberOfElementsNotFoundException ex = Assert.Throws<ExpectedNumberOfElementsNotFoundException>(delegate { lineProcessor.ValidateSplitList(); });
             int Actual = ex.ExpectedElementCount;
             Assert.AreEqual(Expected, Actual);
         }
