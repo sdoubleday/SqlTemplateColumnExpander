@@ -11,19 +11,19 @@ namespace SqlTemplateColumnExpander
         public LineProcessorConfig() {
             this.ExpectedElementCount = 3;
         }
-        public LineProcessorConfig(string targetTag, List<string> perLineSubstitutions) : this()
+        public LineProcessorConfig(string targetTag, List<string> ListOfColumnsToInsert) : this()
         {
             this.targetTag = targetTag;
-            this.perLineSubstitutions = perLineSubstitutions;
+            this.ListOfColumnsToInsert = ListOfColumnsToInsert;
         }
-        public LineProcessorConfig(string targetTag, List<string> perLineSubstitutions, int ExpectedElementCount) : this(targetTag, perLineSubstitutions)
+        public LineProcessorConfig(string targetTag, List<string> ListOfColumnsToInsert, int ExpectedElementCount) : this(targetTag, ListOfColumnsToInsert)
         {
             this.ExpectedElementCount = ExpectedElementCount;
         }
 
         #region Properties
         public String targetTag { get; set; }
-        public List<String> perLineSubstitutions { get; set; }
+        public List<String> ListOfColumnsToInsert { get; set; }
         public int ExpectedElementCount { get; set; }
         #endregion Properties
 

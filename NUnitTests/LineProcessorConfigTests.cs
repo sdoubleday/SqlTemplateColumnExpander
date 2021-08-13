@@ -16,8 +16,8 @@ namespace SqlTemplateColumnExpander.Tests
             //Arrange
             int Expected = 3;
             String targetTag = "test";
-            List<string> perLineSubstitutions = new List<string> { "input", "input2" };
-            LineProcessorConfig sut = new LineProcessorConfig(targetTag, perLineSubstitutions);
+            List<string> ListOfColumnsToInsert = new List<string> { "input", "input2" };
+            LineProcessorConfig sut = new LineProcessorConfig(targetTag, ListOfColumnsToInsert);
             
             //Act
             int Actual = sut.ExpectedElementCount;
@@ -31,8 +31,8 @@ namespace SqlTemplateColumnExpander.Tests
             //Arrange
             int Expected = 4;
             String targetTag = "test";
-            List<string> perLineSubstitutions = new List<string> { "input", "input2" };
-            LineProcessorConfig sut = new LineProcessorConfig(targetTag, perLineSubstitutions, Expected);
+            List<string> ListOfColumnsToInsert = new List<string> { "input", "input2" };
+            LineProcessorConfig sut = new LineProcessorConfig(targetTag, ListOfColumnsToInsert, Expected);
 
             //Act
             int Actual = sut.ExpectedElementCount;

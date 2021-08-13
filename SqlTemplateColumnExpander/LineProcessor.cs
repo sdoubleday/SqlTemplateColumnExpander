@@ -29,9 +29,9 @@ namespace SqlTemplateColumnExpander
             lineProcessorConfig.targetTag = targetTag;
             this.lineProcessorConfig = lineProcessorConfig;
         }
-        public LineProcessor (String input, String targetTag, List<String> perLineSubstitutions) : this(input, targetTag)
+        public LineProcessor (String input, String targetTag, List<String> ListOfColumnsToInsert) : this(input, targetTag)
         {
-            this.lineProcessorConfig.perLineSubstitutions = perLineSubstitutions;
+            this.lineProcessorConfig.ListOfColumnsToInsert = ListOfColumnsToInsert;
         }
         public LineProcessor (String input, LineProcessorConfig lineProcessorConfig) : this(input)
         {
@@ -120,7 +120,7 @@ namespace SqlTemplateColumnExpander
                     StringBuilder stringBuilder = new StringBuilder();
                     Boolean isFirst = true;
 
-                    foreach (String substitution in this.lineProcessorConfig.perLineSubstitutions)
+                    foreach (String substitution in this.lineProcessorConfig.ListOfColumnsToInsert)
                     {
                         string intermediate = this.GetInputWithoutComment();
                         intermediate = intermediate.Replace(this.commentTagElements.PatternList[0], substitution);

@@ -226,10 +226,10 @@ namespace SqlTemplateColumnExpander.Tests
             List<LineProcessorConfig> Actual = sqlObjectWrapper.GetLineProcessorConfigs();
 
             //Assert
-            Assert.AreEqual(Expected[0], Actual[0].perLineSubstitutions.Count);
-            Assert.AreEqual(Expected[1], Actual[1].perLineSubstitutions.Count);
-            Assert.AreEqual(Expected[2], Actual[2].perLineSubstitutions.Count);
-            Assert.AreEqual(Expected[3], Actual[3].perLineSubstitutions.Count);
+            Assert.AreEqual(Expected[0], Actual[0].ListOfColumnsToInsert.Count);
+            Assert.AreEqual(Expected[1], Actual[1].ListOfColumnsToInsert.Count);
+            Assert.AreEqual(Expected[2], Actual[2].ListOfColumnsToInsert.Count);
+            Assert.AreEqual(Expected[3], Actual[3].ListOfColumnsToInsert.Count);
         }
 
         private List<String> GenerateColumnList()

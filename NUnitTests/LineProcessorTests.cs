@@ -245,8 +245,8 @@ namespace SqlTemplateColumnExpander.Tests
                 "\r\nAND a.Test3 = b.Test3" +
                 "\r\n";
             String Tag = "SampleTag";
-            List<String> perLineSubstitutions = new List<String> { "Test1", "Test2", "Test3" };
-            LineProcessor LineProcessor = new LineProcessor(Input, Tag, perLineSubstitutions);
+            List<String> ListOfColumnsToInsert = new List<String> { "Test1", "Test2", "Test3" };
+            LineProcessor LineProcessor = new LineProcessor(Input, Tag, ListOfColumnsToInsert);
             //Act
             String Actual = LineProcessor.GetLine();
 
@@ -261,8 +261,8 @@ namespace SqlTemplateColumnExpander.Tests
             String Input = "a.SampleString = b.SampleString /*SampleTag|SampleString|AND*/";
             String Expected = Input;
             String Tag = "NonSampleTag";
-            List<String> perLineSubstitutions = new List<String> { "Test1", "Test2", "Test3" };
-            LineProcessor LineProcessor = new LineProcessor(Input, Tag, perLineSubstitutions);
+            List<String> ListOfColumnsToInsert = new List<String> { "Test1", "Test2", "Test3" };
+            LineProcessor LineProcessor = new LineProcessor(Input, Tag, ListOfColumnsToInsert);
             //Act
             String Actual = LineProcessor.GetLine();
 
