@@ -24,5 +24,21 @@ namespace SqlTemplateColumnExpander.Tests
             Assert.AreEqual(expectedListOfStrings[1], sut.PatternList[0]);
             Assert.AreEqual(expectedListOfStrings[2], sut.JoinString);
         }
+
+        [TestCase]
+        public void Constructor_FourElements()
+        {
+            //Arrange
+            List<string> expectedListOfStrings = new List<string> { "input", "input2", "input3", "input4" };
+
+            //Act
+            CommentTagElements sut = new CommentTagElements(expectedListOfStrings);
+
+            //Assert
+            Assert.AreEqual(expectedListOfStrings[0], sut.Tag);
+            Assert.AreEqual(expectedListOfStrings[1], sut.PatternList[0]);
+            Assert.AreEqual(expectedListOfStrings[2], sut.PatternList[1]);
+            Assert.AreEqual(expectedListOfStrings[3], sut.JoinString);
+        }
     }
 }

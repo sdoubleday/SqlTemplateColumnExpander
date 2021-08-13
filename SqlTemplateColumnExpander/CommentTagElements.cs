@@ -18,8 +18,11 @@ namespace SqlTemplateColumnExpander
         {
             this.Tag = listOfStrings[0];
             this.PatternList = new List<String>();
-            this.PatternList.Add(listOfStrings[1]);
-            this.JoinString = listOfStrings[2];
+            foreach (String theString in listOfStrings.GetRange(1, listOfStrings.Count - 2))
+            {
+                this.PatternList.Add(theString);
+            }
+            this.JoinString = listOfStrings[listOfStrings.Count - 1];
         }
         #endregion Constructors
     }

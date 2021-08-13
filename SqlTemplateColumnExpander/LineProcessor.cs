@@ -120,10 +120,10 @@ namespace SqlTemplateColumnExpander
                     StringBuilder stringBuilder = new StringBuilder();
                     Boolean isFirst = true;
 
-                    foreach (String substitution in this.lineProcessorConfig.ListOfColumnsToInsert)
+                    foreach (String columnToInsert in this.lineProcessorConfig.ListOfColumnsToInsert)
                     {
                         string intermediate = this.GetInputWithoutComment();
-                        intermediate = intermediate.Replace(this.commentTagElements.PatternList[0], substitution);
+                        intermediate = intermediate.Replace(this.commentTagElements.PatternList[0], columnToInsert);
 
                         //Looks like this wound up being superfluous. IF so, plan to remove it from the template as well.
                         stringBuilder.Append(this.FormatJoinString(this.commentTagElements.JoinString, isFirst));
