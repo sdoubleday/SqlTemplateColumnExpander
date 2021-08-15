@@ -123,9 +123,8 @@ namespace SqlTemplateColumnExpander
                     foreach (String columnToInsert in this.lineProcessorConfig.ListOfColumnsToInsert)
                     {
                         string intermediate = this.GetInputWithoutComment();
-                        intermediate = intermediate.Replace(this.commentTagElements.PatternList[0], columnToInsert);
+                        intermediate = UpdateLineWithColumnToInsert(columnToInsert, intermediate);
 
-                        //Looks like this wound up being superfluous. IF so, plan to remove it from the template as well.
                         stringBuilder.Append(this.FormatJoinString(this.commentTagElements.JoinString, isFirst));
                         stringBuilder.AppendLine(intermediate);
 
@@ -140,6 +139,12 @@ namespace SqlTemplateColumnExpander
                 }
             }
             return returnable;
+        }
+
+        public string UpdateLineWithColumnToInsert(string columnToInsert, string intermediate)
+        {
+            intermediate = intermediate.Replace(this.commentTagElements.PatternList[0], columnToInsert);
+            return intermediate;
         }
 
         public string FormatJoinString(String joinString, bool isFirst)
