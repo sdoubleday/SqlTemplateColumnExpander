@@ -23,5 +23,20 @@ namespace SqlTemplateColumnExpander
             this.ListOfColumnNameComponents = listOfColumnNameComponents;
         }
         #endregion Constructors
+        #region Methods
+        public bool ConfirmListLengthMatch(int otherListLength)
+        {
+            bool returnable = false;
+            if (this.ListOfColumnNameComponents.Count == otherListLength)
+            {
+                returnable = true;
+            }
+            else
+            {
+                throw new ComponentsOfColumnNameListLengthException();
+            }
+            return returnable;
+        }
+        #endregion Methods
     }
 }
