@@ -7,8 +7,8 @@
     <RepositoryUrl></RepositoryUrl>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Authors>sdoubleday</Authors>
-    <Version>2.1.1</Version>
-    <PackageReleaseNotes>Fix null object bug</PackageReleaseNotes>
+    <Version>2.2.0</Version>
+    <PackageReleaseNotes>For fact table column constraints added support for multiple components of an SK column name</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

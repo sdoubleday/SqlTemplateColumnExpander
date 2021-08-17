@@ -88,10 +88,16 @@ namespace SqlTemplateColumnExpander
             return returnable;
         }
         public List<String> GetListOfDimColumns() {
-            return this.ListOfColumnNames.Where(mystring => !mystring.StartsWith("Ctl_")).Where(mystring => !mystring.StartsWith("SK_")).Where(mystring => !mystring.StartsWith("NK_")).ToList<String>();
+            return this.ListOfColumnNames.Where(mystring => !mystring.StartsWith("Ctl_")).Where(mystring => !mystring.StartsWith("SK_")).Where(mystring => !mystring.StartsWith("NK_")).Where(mystring => !mystring.EndsWith("_OnFactDim")).ToList<String>();
         }
         public List<String> GetListOfSkColumns() {
-            return this.ListOfColumnNames.Where(mystring => mystring.StartsWith("SK_")).ToList<String>();
+            List<String> listOfSkColumns = this.ListOfColumnNames.Where(mystring => mystring.StartsWith("SK_")).Where(mystring => !mystring.Contains("_RP_")).ToList<String>();
+            List<String> returnable = new List<String>();
+            foreach (String theString in listOfSkColumns)
+            {
+                returnable.Add(theString.Replace("SK_", ""));
+            }
+            return returnable;
         }
         public List<String> GetListOfNkColumns()
         {
@@ -101,6 +107,28 @@ namespace SqlTemplateColumnExpander
         {
             return this.ListOfColumnNames.Where(mystring => mystring.StartsWith("Ctl_")).ToList<String>();
         }
+        public List<ComponentsOfColumnName> GetListOfSkRPColumns()
+        {
+            List<String> listOfSkRPColumns = this.ListOfColumnNames.Where(mystring => mystring.StartsWith("SK_")).Where(mystring => mystring.Contains("_RP_")).ToList<String>();
+            List<ComponentsOfColumnName> returnable = new List<ComponentsOfColumnName>();
+            foreach (String textOfColumnName in listOfSkRPColumns )
+            {
+                String MetaColumnName = textOfColumnName.Split("_RP_")[0].Replace("SK_", "");
+                String MetaColumnAlias = textOfColumnName.Split("_RP_")[1];
+                List<String> columnComponents = new List<String>
+                { 
+                     MetaColumnName
+                    ,MetaColumnAlias
+                };
+                returnable.Add(new ComponentsOfColumnName(columnComponents));
+            }
+            return returnable;
+        }
+
+        public List<String> GetListOfDegenDimColumns()
+        {
+            return this.ListOfColumnNames.Where(mystring => mystring.EndsWith("_OnFactDim")).ToList<String>();
+        }
         #endregion Internal
 
         public List<LineProcessorConfig> GetLineProcessorConfigs()
@@ -109,6 +137,8 @@ namespace SqlTemplateColumnExpander
             LineProcessorConfig lineProcessorConfigNK = new LineProcessorConfig("NaturalKey_ReplacementPoint", this.GetListOfNkColumns());
             LineProcessorConfig lineProcessorConfigCtl = new LineProcessorConfig("ControlColumn_ReplacementPoint", this.GetListOfCtlColumns());
             LineProcessorConfig lineProcessorConfigDim = new LineProcessorConfig("DimensionAttribute_ReplacementPoint", this.GetListOfDimColumns());
+            LineProcessorConfig lineProcessorConfigDegenDim = new LineProcessorConfig("DegenerateDimensionAttribute_ReplacementPoint", this.GetListOfDegenDimColumns());
+            LineProcessorConfig lineProcessorConfigSkRP = new LineProcessorConfig("SurrogateKey_RolePlay_ReplacementPoint", this.GetListOfSkRPColumns());
 
             List<LineProcessorConfig> returnable = new List<LineProcessorConfig>
             {
@@ -116,6 +146,8 @@ namespace SqlTemplateColumnExpander
                 ,lineProcessorConfigNK
                 ,lineProcessorConfigCtl
                 ,lineProcessorConfigDim
+                ,lineProcessorConfigDegenDim
+                ,lineProcessorConfigSkRP
             };
             
             return returnable;

@@ -31,7 +31,7 @@ namespace SqlTemplateColumnExpander
         }
         public LineProcessor (String input, String targetTag, List<String> ListOfColumnsToInsert) : this(input, targetTag)
         {
-            this.lineProcessorConfig.ListOfColumnsToInsert = ListOfColumnsToInsert;
+            this.lineProcessorConfig.ListOfColumnsToInsert = this.lineProcessorConfig.ConvertListOfOnePartColumnNamesToListOfComponentsOfColumnName(ListOfColumnsToInsert);
         }
         public LineProcessor (String input, LineProcessorConfig lineProcessorConfig) : this(input)
         {
@@ -120,10 +120,10 @@ namespace SqlTemplateColumnExpander
                     StringBuilder stringBuilder = new StringBuilder();
                     Boolean isFirst = true;
 
-                    foreach (String columnToInsert in this.lineProcessorConfig.ListOfColumnsToInsert)
+                    foreach (ComponentsOfColumnName columnToInsert in this.lineProcessorConfig.ListOfColumnsToInsert)
                     {
                         string intermediate = this.GetInputWithoutComment();
-                        intermediate = UpdateLineWithColumnToInsert(columnToInsert, intermediate);
+                        intermediate = UpdateLineWithColumnToInsert(this.commentTagElements.PatternList, columnToInsert, intermediate);
 
                         stringBuilder.Append(this.FormatJoinString(this.commentTagElements.JoinString, isFirst));
                         stringBuilder.AppendLine(intermediate);
@@ -141,9 +141,15 @@ namespace SqlTemplateColumnExpander
             return returnable;
         }
 
-        public string UpdateLineWithColumnToInsert(string columnToInsert, string intermediate)
+        public string UpdateLineWithColumnToInsert(List<String> listOfReplacementPatterns, ComponentsOfColumnName columnToInsert, string intermediate)
         {
-            intermediate = intermediate.Replace(this.commentTagElements.PatternList[0], columnToInsert);
+            columnToInsert.ConfirmListLengthMatch(listOfReplacementPatterns.Count);
+            int theIndex = 0;
+            foreach(String theString in listOfReplacementPatterns)
+            {
+                intermediate = intermediate.Replace(listOfReplacementPatterns[theIndex], columnToInsert.ListOfColumnNameComponents[theIndex]);
+                theIndex = theIndex + 1;
+            }
             return intermediate;
         }
 

@@ -270,5 +270,40 @@ namespace SqlTemplateColumnExpander.Tests
             Assert.AreEqual(Expected, Actual);
         }
 
+        [TestCase]
+        public void UpdateLineWithColumnToInsert()
+        {
+            //Arrange
+            LineProcessor sut = new LineProcessor();
+            List<String> listOfReplacementPatterns = new List<string> { "PatternList1", "PatternList2" };
+            List<String> listOfColumnNameComponents = new List<string> { "ComponentA", "ComponentB" };
+            ComponentsOfColumnName componentsOfColumnName = new ComponentsOfColumnName( listOfColumnNameComponents );
+            String Input = "prefixPatternList1_separator_PatternList2_suffix";
+            String Expected = "prefixComponentA_separator_ComponentB_suffix";
+
+            //Act
+            String Actual = sut.UpdateLineWithColumnToInsert(listOfReplacementPatterns, componentsOfColumnName, Input);
+
+            //Assert
+            Assert.AreEqual(Expected, Actual);
+
+        }
+
+        [TestCase]
+        public void UpdateLineWithColumnToInsert_ErrorIfMisMatchInListLengths()
+        {
+            //Arrange
+            LineProcessor sut = new LineProcessor();
+            List<String> listOfReplacementPatterns = new List<string> { "PatternList1", "PatternList2" };
+            ComponentsOfColumnName componentsOfColumnName = new ComponentsOfColumnName( new List<string> { "OneComponent" } );
+            String Input = "test";
+
+            //Act
+            
+            //Assert
+            Assert.Throws<ComponentsOfColumnNameListLengthException>(delegate { sut.UpdateLineWithColumnToInsert(listOfReplacementPatterns, componentsOfColumnName, Input); });
+
+        }
+
     }
 }
