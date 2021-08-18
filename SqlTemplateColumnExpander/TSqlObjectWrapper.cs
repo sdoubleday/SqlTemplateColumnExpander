@@ -133,25 +133,32 @@ namespace SqlTemplateColumnExpander
 
         public List<LineProcessorConfig> GetLineProcessorConfigs()
         {
-            LineProcessorConfig lineProcessorConfigSK = new LineProcessorConfig("SurrogateKey_ReplacementPoint", this.GetListOfSkColumns());
-            LineProcessorConfig lineProcessorConfigNK = new LineProcessorConfig("NaturalKey_ReplacementPoint", this.GetListOfNkColumns());
-            LineProcessorConfig lineProcessorConfigCtl = new LineProcessorConfig("ControlColumn_ReplacementPoint", this.GetListOfCtlColumns());
-            LineProcessorConfig lineProcessorConfigDim = new LineProcessorConfig("DimensionAttribute_ReplacementPoint", this.GetListOfDimColumns());
-            LineProcessorConfig lineProcessorConfigDegenDim = new LineProcessorConfig("DegenerateDimensionAttribute_ReplacementPoint", this.GetListOfDegenDimColumns());
-            LineProcessorConfig lineProcessorConfigSkRP = new LineProcessorConfig("SurrogateKey_RolePlay_ReplacementPoint", this.GetListOfSkRPColumns());
+            List<LineProcessorConfig> returnable = new List<LineProcessorConfig>();
 
-            List<LineProcessorConfig> returnable = new List<LineProcessorConfig>
-            {
-                lineProcessorConfigSK
-                ,lineProcessorConfigNK
-                ,lineProcessorConfigCtl
-                ,lineProcessorConfigDim
-                ,lineProcessorConfigDegenDim
-                ,lineProcessorConfigSkRP
-            };
+            this.AddLineProcessorConfigToReturnableIfColumnCountGreaterThanZero(returnable, "SurrogateKey_ReplacementPoint", this.GetListOfSkColumns());
+            this.AddLineProcessorConfigToReturnableIfColumnCountGreaterThanZero(returnable, "NaturalKey_ReplacementPoint", this.GetListOfNkColumns());
+            this.AddLineProcessorConfigToReturnableIfColumnCountGreaterThanZero(returnable, "ControlColumn_ReplacementPoint", this.GetListOfCtlColumns());
+            this.AddLineProcessorConfigToReturnableIfColumnCountGreaterThanZero(returnable, "DimensionAttribute_ReplacementPoint", this.GetListOfDimColumns());
+            this.AddLineProcessorConfigToReturnableIfColumnCountGreaterThanZero(returnable, "DegenerateDimensionAttribute_ReplacementPoint", this.GetListOfDegenDimColumns());
             
+            //This is a List<ComponentsOfColumnName>, not a List<String>.
+            if (this.GetListOfSkRPColumns().Count > 0)
+            {
+                LineProcessorConfig lineProcessorConfigSkRP = new LineProcessorConfig("SurrogateKey_RolePlay_ReplacementPoint", this.GetListOfSkRPColumns());
+                returnable.Add(lineProcessorConfigSkRP);
+            }
             return returnable;
         }
+
+        public void AddLineProcessorConfigToReturnableIfColumnCountGreaterThanZero(List<LineProcessorConfig> returnable, String targetTag, List<String> listOfColumns)
+        {
+            if (listOfColumns.Count > 0)
+            {
+                LineProcessorConfig lineProcessorConfig = new LineProcessorConfig(targetTag, listOfColumns);
+                returnable.Add(lineProcessorConfig);
+            }
+        }
+
         public List<StringReplacementPair> GetStringReplacementPairs()
         {
             //Note: I will probably want to standardize the patterns here across projects

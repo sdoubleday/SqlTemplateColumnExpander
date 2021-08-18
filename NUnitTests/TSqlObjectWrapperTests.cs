@@ -298,7 +298,40 @@ namespace SqlTemplateColumnExpander.Tests
             Assert.AreEqual(Expected[4], Actual[4].ListOfColumnsToInsert.Count);
             Assert.AreEqual(Expected[5], Actual[5].ListOfColumnsToInsert.Count);
         }
+        [TestCase]
+        public void GetLineProcessorConfigs_SkipIfNoColumns()
+        {
+            //Arrange
+            GeneratorSpecification generatorSpecification = new GeneratorSpecification();
 
+            LineProcessorConfig lineProcessorConfigNK = new LineProcessorConfig();
+            lineProcessorConfigNK.targetTag = "NaturalKey_ReplacementPoint";
+            LineProcessorConfig lineProcessorConfigCtl = new LineProcessorConfig();
+            lineProcessorConfigCtl.targetTag = "ControlColumn_ReplacementPoint";
+            LineProcessorConfig lineProcessorConfigDim = new LineProcessorConfig();
+            lineProcessorConfigDim.targetTag = "DimensionAttribute_ReplacementPoint";
+
+            List<LineProcessorConfig> Expected = new List<LineProcessorConfig>
+            {
+                 lineProcessorConfigNK
+                ,lineProcessorConfigCtl
+                ,lineProcessorConfigDim
+            };
+
+            TSqlObjectWrapper sqlObjectWrapper = new TSqlObjectWrapper(generatorSpecification);
+            sqlObjectWrapper.ListOfColumnNames = GenerateColumnList_NotAllTypes();
+
+            int ExpectedLineProcessorConfigCount = 3;
+
+            //Act
+            List<LineProcessorConfig> Actual = sqlObjectWrapper.GetLineProcessorConfigs();
+
+            //Assert
+            Assert.AreEqual(ExpectedLineProcessorConfigCount, Actual.Count);
+            Assert.AreEqual(Expected[0].targetTag, Actual[0].targetTag);
+            Assert.AreEqual(Expected[1].targetTag, Actual[1].targetTag);
+            Assert.AreEqual(Expected[2].targetTag, Actual[2].targetTag);
+        }
         private List<String> GenerateColumnList()
         {
             List<String> returnable = new List<String> { 
@@ -318,5 +351,16 @@ namespace SqlTemplateColumnExpander.Tests
             };
             return returnable;
         }
+        private List<String> GenerateColumnList_NotAllTypes()
+        {
+            List<String> returnable = new List<String> {
+                 "IAmADimension"
+                ,"ImAlsoADimension"
+                ,"Ctl_EffectiveDate"
+                ,"NK_SomeGUID"
+            };
+            return returnable;
+        }
+
     }
 }
