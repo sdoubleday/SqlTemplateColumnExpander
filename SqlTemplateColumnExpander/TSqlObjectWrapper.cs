@@ -144,7 +144,7 @@ namespace SqlTemplateColumnExpander
             //This is a List<ComponentsOfColumnName>, not a List<String>.
             if (this.GetListOfSkRPColumns().Count > 0)
             {
-                LineProcessorConfig lineProcessorConfigSkRP = new LineProcessorConfig("SurrogateKey_RolePlay_ReplacementPoint", this.GetListOfSkRPColumns());
+                LineProcessorConfig lineProcessorConfigSkRP = new LineProcessorConfig("SurrogateKey_RolePlay_ReplacementPoint", this.GetListOfSkRPColumns(), 4);
                 returnable.Add(lineProcessorConfigSkRP);
             }
             return returnable;
