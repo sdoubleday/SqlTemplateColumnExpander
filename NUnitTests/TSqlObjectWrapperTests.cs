@@ -320,12 +320,12 @@ namespace SqlTemplateColumnExpander.Tests
             List<LineProcessorConfig> Actual = sqlObjectWrapper.GetLineProcessorConfigs();
 
             //Assert
-            Assert.AreEqual(Expected[0], Actual[0].ListOfColumnsToInsert.Count);
-            Assert.AreEqual(Expected[1], Actual[1].ListOfColumnsToInsert.Count);
-            Assert.AreEqual(Expected[2], Actual[2].ListOfColumnsToInsert.Count);
-            Assert.AreEqual(Expected[3], Actual[3].ListOfColumnsToInsert.Count);
-            Assert.AreEqual(Expected[4], Actual[4].ListOfColumnsToInsert.Count);
-            Assert.AreEqual(Expected[5], Actual[5].ListOfColumnsToInsert.Count);
+            Assert.AreEqual(Expected[0], Actual[0].ExpectedElementCount);
+            Assert.AreEqual(Expected[1], Actual[1].ExpectedElementCount);
+            Assert.AreEqual(Expected[2], Actual[2].ExpectedElementCount);
+            Assert.AreEqual(Expected[3], Actual[3].ExpectedElementCount);
+            Assert.AreEqual(Expected[4], Actual[4].ExpectedElementCount);
+            Assert.AreEqual(Expected[5], Actual[5].ExpectedElementCount);
         }
         [TestCase]
         public void GetLineProcessorConfigs_SkipIfNoColumns()
