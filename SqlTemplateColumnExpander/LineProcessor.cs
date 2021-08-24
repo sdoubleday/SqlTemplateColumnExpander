@@ -97,6 +97,10 @@ namespace SqlTemplateColumnExpander
             {
                 returnable = true;
             }
+            else if (!this.CheckTag( this.SplitCommentToList()[0] ) )
+            { 
+                returnable = true;
+            }
             else
             {
                 this.ValidateSplitList();
@@ -114,9 +118,9 @@ namespace SqlTemplateColumnExpander
             else
             {
                 this.PopulateCommentTagElements();
-                
-                if (this.lineProcessorConfig.targetTag == this.commentTagElements.Tag)
-                { 
+
+                if (CheckTag(this.commentTagElements.Tag))
+                {
                     StringBuilder stringBuilder = new StringBuilder();
                     Boolean isFirst = true;
 
@@ -139,6 +143,11 @@ namespace SqlTemplateColumnExpander
                 }
             }
             return returnable;
+        }
+
+        private bool CheckTag(string tagFromComment)
+        {
+            return this.lineProcessorConfig.targetTag == tagFromComment;
         }
 
         public string UpdateLineWithColumnToInsert(List<String> listOfReplacementPatterns, ComponentsOfColumnName columnToInsert, string intermediate)

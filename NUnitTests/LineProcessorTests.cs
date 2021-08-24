@@ -195,11 +195,13 @@ namespace SqlTemplateColumnExpander.Tests
         }
 
         [TestCase]
-        public void DetermineControlFlow_JustReturnLine__ExceptionIfHasSQLBlockCommentButNoSplitChar()
+        public void DetermineControlFlow_JustReturnLine__ExceptionIfHasSQLBlockCommentWithTagButWrongNumberOfSplitChars()
         {
             //Arrange
-            String Input = "A String /*SqlComment*/ asdf";
+            String Input = "A String /*Sql|Comment*/ asdf";
+            LineProcessorConfig lineProcessorConfig = new LineProcessorConfig("Sql", new List<string> { "OneColumn" });
             LineProcessor LineProcessor = new LineProcessor(Input);
+            LineProcessor.lineProcessorConfig = lineProcessorConfig;
             //Act
 
             //Assert
@@ -212,7 +214,9 @@ namespace SqlTemplateColumnExpander.Tests
             //Arrange
             Boolean Expected = false;
             String Input = "A String /*Sql|Com|ment*/ asdf";
+            LineProcessorConfig lineProcessorConfig = new LineProcessorConfig("Sql", new List<string> { "OneColumn" });
             LineProcessor LineProcessor = new LineProcessor(Input);
+            LineProcessor.lineProcessorConfig = lineProcessorConfig;
             //Act
             Boolean Actual = LineProcessor.DetermineControlFlow_JustReturnLine();
 
@@ -220,6 +224,39 @@ namespace SqlTemplateColumnExpander.Tests
             Assert.AreEqual(Expected, Actual);
         }
 
+        [TestCase]
+        public void DetermineControlFlow_JustReturnLine__TrueIfCommentButDifferentTag()
+        {
+            //Arrange
+            Boolean Expected = true;
+            String Input = "A String /*Sql|Com|ment*/ asdf";
+            LineProcessorConfig lineProcessorConfig = new LineProcessorConfig( "tagNotSQL", new List<string> { "OneColumn" } );
+            LineProcessor LineProcessor = new LineProcessor(Input);
+            LineProcessor.lineProcessorConfig = lineProcessorConfig;
+
+            //Act
+            Boolean Actual = LineProcessor.DetermineControlFlow_JustReturnLine();
+
+            //Assert
+            Assert.AreEqual(Expected, Actual);
+        }
+
+        [TestCase]
+        public void DetermineControlFlow_JustReturnLine__TrueIfCommentButDifferentTag_IgnoresDifferentElementCount()
+        {
+            //Arrange
+            Boolean Expected = true;
+            String Input = "A String /*Sql|Com|ment*/ asdf";
+            LineProcessorConfig lineProcessorConfig = new LineProcessorConfig("tagNotSQL", new List<string> { "OneColumn" }, 9 );
+            LineProcessor LineProcessor = new LineProcessor(Input);
+            LineProcessor.lineProcessorConfig = lineProcessorConfig;
+
+            //Act
+            Boolean Actual = LineProcessor.DetermineControlFlow_JustReturnLine();
+
+            //Assert
+            Assert.AreEqual(Expected, Actual);
+        }
         [TestCase]
         public void GetLine_Default()
         {
