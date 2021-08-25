@@ -163,9 +163,13 @@ namespace SqlTemplateColumnExpander
         {
             //Note: I will probably want to standardize the patterns here across projects
             List<StringReplacementPair> returnable = new List<StringReplacementPair> {
-                new StringReplacementPair("StagingSchema", this.SchemaName)        //SourceSchema
-                ,new StringReplacementPair("templateDimCoreName", this.GetMetaObjectName())     //MetaObjectName
-                ,new StringReplacementPair("dimRpName", this.GetMetaObjectAlias())      //MetaObjectAlias
+                new StringReplacementPair("StagingSchema", this.SchemaName)        //Backwards compatibility with SourceSchema
+                ,new StringReplacementPair("factSourceSchema", this.SchemaName)        //Backwards compatibility with SourceSchema
+                ,new StringReplacementPair("SourceSchema", this.SchemaName)        //SourceSchema
+                ,new StringReplacementPair("templateDimCoreName", this.GetMetaObjectName())     //Backwards compatibility with MetaObjectName
+                ,new StringReplacementPair("MetaObjectName", this.GetMetaObjectName())     //MetaObjectName
+                ,new StringReplacementPair("dimRpName", this.GetMetaObjectAlias())      //Backwards compatibility with MetaObjectAlias
+                ,new StringReplacementPair("MetaObjectAlias", this.GetMetaObjectAlias())      //MetaObjectAlias
             };
             returnable.AddRange(this.generatorSpecification.replacementPairs);      //Plus the mappings of my template schema names to the output schemas chosen by the user.
             return returnable;
