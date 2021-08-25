@@ -7,8 +7,8 @@
     <RepositoryUrl></RepositoryUrl>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Authors>sdoubleday</Authors>
-    <Version>2.2.3</Version>
-    <PackageReleaseNotes>Fix control flow bug.</PackageReleaseNotes>
+    <Version>2.2.4</Version>
+    <PackageReleaseNotes>Fix string replacement bug and skip non-relevant column expansion points.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
