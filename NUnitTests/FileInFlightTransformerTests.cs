@@ -30,5 +30,50 @@ namespace SqlTemplateColumnExpander.Tests
             //Assert
             Assert.AreEqual(Expected, Actual);
         }
+        [TestCase]
+        public void CheckForCommentInTagFormatAfterTransformations_Present()
+        {
+            //Arrange
+            String Input = "test /*tag|Pattern|join*/ ";
+            bool Expected = true;
+            
+            FileInFlightTransformer fileInFlightTransformer = new FileInFlightTransformer();
+
+            //Act
+            bool Actual = fileInFlightTransformer.CheckForCommentInTagFormatAfterTransformations(Input);
+
+            //Assert
+            Assert.AreEqual(Expected, Actual);
+        }
+        [TestCase]
+        public void CheckForCommentInTagFormatAfterTransformations_Absent()
+        {
+            //Arrange
+            String Input = "test ";
+            bool Expected = false;
+
+            FileInFlightTransformer fileInFlightTransformer = new FileInFlightTransformer();
+
+            //Act
+            bool Actual = fileInFlightTransformer.CheckForCommentInTagFormatAfterTransformations(Input);
+
+            //Assert
+            Assert.AreEqual(Expected, Actual);
+        }
+        [TestCase]
+        public void CheckForCommentInTagFormatAfterTransformations_CommentInDifferentFormat()
+        {
+            //Arrange
+            String Input = "test /*blahblah*/";
+            bool Expected = false;
+
+            FileInFlightTransformer fileInFlightTransformer = new FileInFlightTransformer();
+
+            //Act
+            bool Actual = fileInFlightTransformer.CheckForCommentInTagFormatAfterTransformations(Input);
+
+            //Assert
+            Assert.AreEqual(Expected, Actual);
+        }
     }
 }

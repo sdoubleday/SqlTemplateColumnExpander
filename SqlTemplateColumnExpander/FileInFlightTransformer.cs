@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace SqlTemplateColumnExpander
 {
@@ -40,7 +41,10 @@ namespace SqlTemplateColumnExpander
                                 line = this.StringReplacementsTransformations(line);
                                 line = this.LineProcessorTransformations(line);
 
-                                writer.WriteLine(line);
+                                if (!this.CheckForCommentInTagFormatAfterTransformations(line))
+                                {
+                                    writer.WriteLine(line);
+                                }
                             }
                         }
                     }
@@ -50,6 +54,16 @@ namespace SqlTemplateColumnExpander
             {
                 throw new NoFilesFoundToTransformException();
             }
+        }
+
+        public bool CheckForCommentInTagFormatAfterTransformations(string line)
+        {
+            //This relies on the splitter char being a pipe (|). Right now, that is defined on the LineProcessor in a method. It should PROBABLY be on the GeneratorSpecification.
+            bool returnable = false;
+            //Regex for finding /*blah|blah*/
+            Regex regex = new Regex("(?<=/\\*).*\\|.*(?=\\*/)");
+            returnable = regex.Match(line, 0).Success;
+            return returnable;
         }
 
         public string LineProcessorTransformations(string line)
