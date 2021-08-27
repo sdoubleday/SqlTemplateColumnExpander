@@ -168,8 +168,10 @@ namespace SqlTemplateColumnExpander
                 ,new StringReplacementPair("SourceSchema", this.SchemaName)        //SourceSchema
                 ,new StringReplacementPair("templateDimCoreName", this.GetMetaObjectName())     //Backwards compatibility with MetaObjectName
                 ,new StringReplacementPair("MetaObjectName", this.GetMetaObjectName())     //MetaObjectName
+                ,new StringReplacementPair("MetaObjName", this.GetMetaObjectName())     //Backwards compatibility with MetaObjectName
                 ,new StringReplacementPair("dimRpName", this.GetMetaObjectAlias())      //Backwards compatibility with MetaObjectAlias
                 ,new StringReplacementPair("MetaObjectAlias", this.GetMetaObjectAlias())      //MetaObjectAlias
+                ,new StringReplacementPair("MetaObjAlias", this.GetMetaObjectAlias())      //Backwards compatibility with MetaObjectAlias
             };
             returnable.AddRange(this.generatorSpecification.replacementPairs);      //Plus the mappings of my template schema names to the output schemas chosen by the user.
             return returnable;
